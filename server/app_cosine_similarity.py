@@ -288,8 +288,9 @@ def find_similar_recipes(recipe_name, limit=3):
         if len(matches) == 0:
             return []
             
-    target_idx = matches.index[0]
-    target_vector = tfidf_matrix[target_idx]
+    target_label = matches.index[0]
+    target_idx = int(np.flatnonzero(df.index == target_label)[0])
+    target_vector = tfidf_matrix.getrow(target_idx)
     
     sims = cosine_similarity(target_vector, tfidf_matrix).flatten()
     sims[target_idx] = -1.0  # Exclude self
